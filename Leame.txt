@@ -56,13 +56,13 @@ en CMD ejecutar: C:\Desarrollos\API_TasasCambio_USA\frontend\fx-rates-ui>npm ins
 
 15- Para subir el proyecto a Render en CMD ejecuta: C:\Desarrollos\API_TasasCambio_USA\frontend\fx-rates-ui>npm run build y esto crea la carpeta "dist/"
 
-16- Ejecutar: C:\Desarrollos\API_TasasCambio_USA\frontend\fx-rates-ui>git init 
+16- Ejecutar: C:\Desarrollos\API_TasasCambio_USA>git init 
 
 17- Crear repositorio en GitHub (New Repository: TasasdeCambioUSD, público)
 
 18- Conectar desde el PC y subir a GitHub
 
-En CMD C:\Desarrollos\API_TasasCambio_USA\frontend\fx-rates-ui> ejecutar los siguientes comandos
+En CMD C:\Desarrollos\API_TasasCambio_USA> ejecutar los siguientes comandos
 git branch -M main
 git remote add origin https://github.com/johergo2/TasasdeCambioUSD.git 
 git push -u origin main
@@ -83,6 +83,8 @@ Publish Directory: dist
 Variables de entorno: No - Ninguna 
 Create Static Site
 Render genera la url: https://tasasdecambiousd.onrender.com
+
+20- Para el BackEnd (se creó API que expone datas de la tabla tasas_de_cambio). Para esto conectamos subimos los objetos
 
 
 ============ PUBLICAR EN www.vercel.com =================
