@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from backend.app.routers import tasas
-from routers import tasas_cambio
+from backend.app.routers import tasas_cambio
 
 app = FastAPI(
     title="API Tasas de Cambio USA",
