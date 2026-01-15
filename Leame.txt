@@ -1,0 +1,100 @@
+1- Para el BackEnd crear entorno virtual
+
+Desde CMD ingresar a la ruta "C:\Desarrollos\API_TasasCambio_USA\backend" y ejecutar: python -m venv venv
+
+2- Activar entorno virtual
+Desde CMD ingresar a la ruta "C:\Desarrollos\API_TasasCambio_USA\backend" y ejecutar: venv\Scripts\activate
+
+3- Instalar dependencias base (después de ejecutar el paso 2)
+Desde CMD ingresar a la ruta "C:\Desarrollos\API_TasasCambio_USA\backend" y ejecutar: pip install fastapi uvicorn sqlalchemy asyncpg psycopg2-binary python-dotenv httpx
+
+4- Estructura recomendada del BackEnd
+
+backend/
+├── app/
+│   ├── main.py
+│   ├── database.py
+│   ├── models/
+│   │   └── tasas.py
+│   ├── routers/
+│   │   └── tasas.py
+│   ├── services/
+│   │   └── proveedores.py
+│   └── utils/
+│       └── fechas.py
+├── .env
+├── requirements.txt
+└── README.md
+
+5- Crear archivo main.py (dentro de app)
+
+6- Crear archivo tasas.py (dentro de routers)
+
+7- Ejecutar la API localmente desde "C:\Desarrollos\API_TasasCambio_USA\backend": uvicorn app.main:app --reload (Inicia el servidor FastAPI)
+Se puede consumir desde el navgador: http://localhost:8000/api/tasas/usd
+Se puede consumir con curl: c:\>curl http://localhost:8000/api/tasas/usd
+
+8- Verificar que tenemos instalado Node.js y npm
+En CMD ejecutar: node -v (Debe retornar algo como v24.11.1)
+En CMD ejecutar: npm -v (Debe retornar algo como 11.6.2)
+Si algo no funciona consultar IA
+
+9- Ubicarse en la carpeta de trabajo: C:\Desarrollos\API_TasasCambio_USA\frontend (CMD)
+
+10- Crear el proyecto con Vite + React + TypeScript. Ejecutar: npm create vite@latest fx-rates-ui -- --template react-ts (desde la ruta anterior "frontend")
+Pregunta: Use rolldown-vite (Experimental)?: Yes/No => Seleccionar No
+Pregunta: Install with npm and start now?: Yes/No => Seleccionar No (Con Yes se Ejecuta automáticamente npm install y npm run dev)
+
+11- Ingresar a la carpeta creada: "C:\Desarrollos\API_TasasCambio_USA\frontend\fx-rates-ui" en CMD y ejecutar npm run dev (levanta el proyecto en local)
+
+12- http://localhost:5173/ (Esta es la url del proyecto)
+
+13- En la carpeta donde está el archivo package.json (C:\Desarrollos\API_TasasCambio_USA\frontend\fx-rates-ui) tenemos que instalar React Router.
+en CMD ejecutar: C:\Desarrollos\API_TasasCambio_USA\frontend\fx-rates-ui>npm install react-router-dom
+
+14- Para iniciar el servidor de Vite (Ejecutar el front - Pantalla) en CMD ejecutar: C:\Desarrollos\API_TasasCambio_USA\frontend\fx-rates-ui>npm run dev
+
+15- Para subir el proyecto a Render en CMD ejecuta: C:\Desarrollos\API_TasasCambio_USA\frontend\fx-rates-ui>npm run build y esto crea la carpeta "dist/"
+
+16- Ejecutar: C:\Desarrollos\API_TasasCambio_USA\frontend\fx-rates-ui>git init 
+
+17- Crear repositorio en GitHub (New Repository: TasasdeCambioUSD, público)
+
+18- Conectar desde el PC y subir a GitHub
+
+En CMD C:\Desarrollos\API_TasasCambio_USA\frontend\fx-rates-ui> ejecutar los siguientes comandos
+git branch -M main
+git remote add origin https://github.com/johergo2/TasasdeCambioUSD.git 
+git push -u origin main
+
+si ya existe origin entonces => git remote set-url origin https://github.com/johergo2/TasasdeCambioUSD.git
+git branch -M main
+git add .
+git commit -m "Primer Commit Proyecto fx-rates-ui - TasasdeCambioUSD"
+git push -u origin main
+
+19- Publicar en Render: www.render.com (ingresar con GitHub)
+en el Dashboard => New + Static Site y seleccionar el repositorio git (TasasdeCambioUSD)
+Name: TasasdeCambioUSD
+Branch: main
+Root Directory: Se deja vacio
+Build Command: npm install && npm run build
+Publish Directory: dist
+Variables de entorno: No - Ninguna 
+Create Static Site
+Render genera la url: https://tasasdecambiousd.onrender.com
+
+
+============ PUBLICAR EN www.vercel.com =================
+Usuario: johergo2
+email: johergo2@gmail.com (No pidió contraseña)
+
+Ahora pide importar desde GitHub y solicita instalar GitHub
+Ahora pide seleccionar el repositorio GitHub y luego instalar, luego importar
+Se asignó automáticamente el nombre: tasasde-cambio-usd (se podía cambiar) y se presiona Deploy
+Se crea la url: https://tasasde-cambio-usd.vercel.app
+
+
+
+
+
