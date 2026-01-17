@@ -5,6 +5,9 @@ from ..database import get_db
 
 router = APIRouter(prefix="/tasas", tags=["Tasas de Cambio"])
 
+#================================================
+# Listar todos los registros 
+#================================================
 @router.get("/")
 async def obtener_tasas(
     fecha: str | None = Query(None),
@@ -21,7 +24,7 @@ async def obtener_tasas(
     params = {}
 
     if fecha:
-        sql += " AND fecha = :fecha"
+        sql += " AND fecha = :fecha::date"
         params["fecha"] = fecha
 
     if from_moneda:
