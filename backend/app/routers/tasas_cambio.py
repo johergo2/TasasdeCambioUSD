@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import text
 from ..database import get_db
+from datetime import date
 
 router = APIRouter(prefix="/tasas", tags=["Tasas de Cambio"])
 
@@ -24,8 +25,8 @@ async def obtener_tasas(
     params = {}
 
     if fecha:
-        sql += " AND fecha = :fecha::date"
-        params["fecha"] = fecha
+        sql += " AND fecha >= :fecha"
+        params["fecha"] = date.fromisoformat(fecha)
 
     if from_moneda:
         sql += " AND from_moneda = :from_moneda"
