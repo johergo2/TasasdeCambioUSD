@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import text
 from ..database import get_db
 from datetime import date
-from app.dependencies.api_key import validar_api_key
+from backend.app.dependencies.api_key import validar_api_key
 
 
 router = APIRouter(prefix="/tasas", tags=["Tasas de Cambio"])
