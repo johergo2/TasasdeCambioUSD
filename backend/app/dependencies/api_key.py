@@ -99,22 +99,33 @@ async def validar_api_key(
             detail="API Key fuera del periodo de vigencia"
         )
 
-    # 6. Validar límite de consumo
-    if key["requests_usadas"] >= key["requests_max"]:
-        raise HTTPException(
-            status_code=429,
-            detail="Límite de consumo alcanzado"
-        )
-
     # Incrementar consumo
     update_sql = """
         UPDATE tasas_api_keys
         SET requests_usadas = requests_usadas + 1
         WHERE api_key = :api_key
+        AND requests_usadas < requests_max
     """
     try:
-        await db.execute(text(update_sql), {"api_key": x_api_key})
-        await db.commit()        
+        result_update = await db.execute(text(update_sql), {"api_key": x_api_key})
+        await db.commit()    
+
+        if result_update.rowcount == 0:
+            await registrar_log(
+                db=db,
+                api_key=x_api_key,
+                endpoint=endpoint,
+                ip=client_ip,
+                status_code=429
+            )    
+            await db.rollback()
+            raise HTTPException(
+                status_code=429,
+                detail="Límite de consumo alcanzado"
+            )      
+
+        await db.commit()                  
+
     except Exception:
         await db.rollback()
         raise HTTPException(
