@@ -1,12 +1,13 @@
-from fastapi import Header, HTTPException, Depends
+from fastapi import Header, HTTPException, Depends, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import text
 from datetime import date
 
 from ..database import get_db
 
-
+# Aquí se tiene toda la lógica de seguridad - valida API_KEY
 async def validar_api_key(
+    request: Request,
     x_api_key: str = Header(None, alias="X-API-Key"),
     db: AsyncSession = Depends(get_db)
 ):
@@ -63,5 +64,14 @@ async def validar_api_key(
             detail="Límite de consumo alcanzado"
         )
 
-    # 7. Todo OK → dejamos pasar
+    # Incrementar consumo
+    update_sql = """
+        UPDATE tasas_api_keys
+        SET requests_usadas = requests_usadas + 1
+        WHERE api_key = :api_key
+    """
+
+    await db.execute(text(update_sql), {"api_key": x_api_key})
+    await db.commit()        
+    
     return key
