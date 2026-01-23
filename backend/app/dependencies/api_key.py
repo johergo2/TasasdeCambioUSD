@@ -11,8 +11,19 @@ async def validar_api_key(
     x_api_key: str = Header(None, alias="X-API-Key"),
     db: AsyncSession = Depends(get_db)
 ):
+    
+    client_ip = request.client.host if request.client else "0.0.0.0"
+    endpoint = str(request.url.path)
+
     # 1. Validar que venga el header
     if not x_api_key:
+        await registrar_log(
+            db=db,
+            api_key="SIN_API_KEY",
+            endpoint=endpoint,
+            ip=client_ip,
+            status_code=401            
+        )
         raise HTTPException(
             status_code=401,
             detail="Debe enviar el header X-API-Key"
@@ -36,6 +47,13 @@ async def validar_api_key(
 
     # 3. API Key no existe
     if not key:
+        await registrar_log(
+            db=db,
+            api_key=x_api_key,
+            endpoint=endpoint,
+            ip=client_ip,
+            status_code=401            
+        )        
         raise HTTPException(
             status_code=401,
             detail="API Key inválida"
@@ -43,6 +61,13 @@ async def validar_api_key(
 
     # 4. API Key inactiva
     if key["estado"] != "ACT":
+        await registrar_log(
+            db=db,
+            api_key=x_api_key,
+            endpoint=endpoint,
+            ip=client_ip,
+            status_code=403
+        )        
         raise HTTPException(
             status_code=403,
             detail="API Key inactiva o suspendida"
@@ -62,6 +87,13 @@ async def validar_api_key(
        fin = fin.date()
 
     if hoy < inicio or hoy > fin:
+        await registrar_log(
+            db=db,
+            api_key=x_api_key,
+            endpoint=endpoint,
+            ip=client_ip,
+            status_code=403
+        )        
         raise HTTPException(
             status_code=403,
             detail="API Key fuera del periodo de vigencia"
@@ -89,5 +121,57 @@ async def validar_api_key(
             status_code=500,
             detail="Error actualizando consumo de la API Key en la tabla"
         )
+    
+    if result_update.rowcount == 0:
+        await registrar_log(
+            db=db,
+            api_key=x_api_key,
+            endpoint=endpoint,
+            ip=client_ip,
+            status_code=429
+        )
+        await db.rollback()
+        raise HTTPException(
+            status_code=429,
+            detail="Límite de consumo alcanzado"
+        )
+
+    await registrar_log(
+        db=db,
+        api_key=x_api_key,
+        endpoint=endpoint,
+        ip=client_ip,
+        status_code=200
+    )
+
 
     return key
+
+async def registrar_log(
+    db: AsyncSession,
+    api_key: str,
+    endpoint: str,
+    ip: str,
+    status_code: int
+):
+    try:
+        sql = text("""
+            INSERT INTO tasas_api_logs
+                (api_key, endpoint, ip, status_code)
+            VALUES
+                (:api_key, :endpoint, :ip, :status_code)
+        """)
+
+        await db.execute(sql, {
+            "api_key": api_key,
+            "endpoint": endpoint,
+            "ip": ip,
+            "status_code": status_code
+        })
+
+        await db.commit()
+
+    except Exception:
+        await db.rollback()
+        # ⚠️ Nunca rompemos la API por un error de logging
+        pass
