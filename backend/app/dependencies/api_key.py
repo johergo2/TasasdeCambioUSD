@@ -51,7 +51,17 @@ async def validar_api_key(
     # 5. Validar vigencia
     hoy = date.today()
 
-    if hoy < key["periodo_inicio"] or hoy > key["periodo_fin"]:
+    inicio = key["periodo_inicio"]
+    fin = key["periodo_fin"]
+
+    # Convertir si vienen como datetime
+    if hasattr(inicio, "date"):
+       inicio = inicio.date()
+
+    if hasattr(fin, "date"):
+       fin = fin.date()
+
+    if hoy < inicio or hoy > fin:
         raise HTTPException(
             status_code=403,
             detail="API Key fuera del periodo de vigencia"
@@ -70,8 +80,14 @@ async def validar_api_key(
         SET requests_usadas = requests_usadas + 1
         WHERE api_key = :api_key
     """
+    try:
+        await db.execute(text(update_sql), {"api_key": x_api_key})
+        await db.commit()        
+    except Exception:
+        await db.rollback()
+        raise HTTPException(
+            status_code=500,
+            detail="Error actualizando consumo de la API Key en la tabla"
+        )
 
-    await db.execute(text(update_sql), {"api_key": x_api_key})
-    await db.commit()        
-    
     return key
