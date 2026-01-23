@@ -1,0 +1,44 @@
+-- Table: public.tasas_api_keys
+
+-- DROP TABLE IF EXISTS public.tasas_api_keys;
+
+CREATE TABLE IF NOT EXISTS public.tasas_api_keys
+(
+    id SERIAL PRIMARY KEY,
+    cliente_nit VARCHAR(20) NOT NULL,
+    api_key VARCHAR(255) NOT NULL UNIQUE,
+    plan VARCHAR(50) NOT NULL,
+    requests_max INTEGER NOT NULL,
+    requests_usadas INTEGER DEFAULT 0,
+    periodo_inicio DATE NOT NULL,
+    periodo_fin DATE NOT NULL,
+    estado VARCHAR(3) NOT NULL,
+
+    CONSTRAINT fk_tasas_api_keys_cliente
+        FOREIGN KEY (cliente_nit)
+        REFERENCES public.clientes_tasas (nit),
+
+    CONSTRAINT chk_requests_validas_tapik 
+        CHECK (requests_usadas >= 0 AND requests_usadas <= requests_max)
+);
+
+ALTER TABLE IF EXISTS public.tasas_api_keys
+    OWNER to usuario_api;
+
+-- DROP INDEX IF EXISTS public.idx_tasas_api_keys_api_key;
+
+CREATE INDEX IF NOT EXISTS idx_tasas_api_keys_api_key
+    ON public.tasas_api_keys USING btree
+    (api_key COLLATE pg_catalog."default" ASC NULLS LAST)
+    WITH (fillfactor=100, deduplicate_items=True)
+    TABLESPACE pg_default;
+
+-- Trigger: trg_set_fecha_actualizacion_tapik
+
+-- DROP TRIGGER IF EXISTS trg_set_fecha_actualizacion_tapik ON public.tasas_api_keys;
+
+CREATE OR REPLACE TRIGGER trg_set_fecha_actualizacion_tapik
+    BEFORE UPDATE 
+    ON public.tasas_api_keys
+    FOR EACH ROW
+    EXECUTE FUNCTION public.set_fecha_actualizacion();

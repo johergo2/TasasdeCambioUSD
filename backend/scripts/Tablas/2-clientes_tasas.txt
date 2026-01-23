@@ -1,0 +1,21 @@
+-- DROP TABLE IF EXISTS public.clientes_tasas;
+
+CREATE TABLE public.clientes_tasas (
+    id SERIAL PRIMARY KEY,
+    Nit VARCHAR(20) NOT NULL UNIQUE,
+    nombre VARCHAR(150) NOT NULL,
+    email VARCHAR(150),
+    contacto VARCHAR(150),
+    telefono VARCHAR(20),
+    estado VARCHAR(3) NOT NULL DEFAULT 'ACT',
+    fecha_creacion TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    fecha_actualizacion TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP    
+);
+
+-- DROP TRIGGER IF EXISTS trg_set_fecha_actualizacion_clieta ON public.clientes_tasas;
+
+CREATE OR REPLACE TRIGGER trg_set_fecha_actualizacion_clieta
+    BEFORE UPDATE 
+    ON public.clientes_tasas
+    FOR EACH ROW
+    EXECUTE FUNCTION public.set_fecha_actualizacion();

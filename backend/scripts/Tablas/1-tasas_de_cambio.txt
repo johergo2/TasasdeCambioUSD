@@ -1,0 +1,32 @@
+-- Table: public.tasas_de_cambio
+
+-- DROP TABLE IF EXISTS public.tasas_de_cambio;
+
+CREATE TABLE IF NOT EXISTS public.tasas_de_cambio
+(
+    id integer NOT NULL DEFAULT nextval('tasas_de_cambio_id_seq'::regclass),
+    fecha date NOT NULL,
+    tipo_tasa character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    from_moneda character varying(3) COLLATE pg_catalog."default" NOT NULL,
+    to_moneda character varying(3) COLLATE pg_catalog."default" NOT NULL,
+    factor numeric(30,15) NOT NULL,
+    fecha_creacion timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    fecha_actualizacion timestamp without time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT tasas_de_cambio_pkey PRIMARY KEY (id),
+    CONSTRAINT uq_tasas_de_cambio UNIQUE (fecha, tipo_tasa, from_moneda, to_moneda, factor)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.tasas_de_cambio
+    OWNER to usuario_api;
+
+-- Trigger: trg_set_fecha_actualizacion_tasas
+
+-- DROP TRIGGER IF EXISTS trg_set_fecha_actualizacion_tasas ON public.tasas_de_cambio;
+
+CREATE OR REPLACE TRIGGER trg_set_fecha_actualizacion_tasas
+    BEFORE UPDATE 
+    ON public.tasas_de_cambio
+    FOR EACH ROW
+    EXECUTE FUNCTION public.set_fecha_actualizacion();

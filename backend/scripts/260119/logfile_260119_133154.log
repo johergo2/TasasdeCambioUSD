@@ -1,0 +1,47 @@
+2026-01-19 18:17:11.955512 - rocketbot - INFO - request: scripts : execRocketBotDBExpose : line 1 - - {"vars":{},"robot":"ActualizaTasasSAP","result":"{Ejecutado}"}
+2026-01-19 18:17:11.965498 - rocketbot - INFO - request: ActualizaTasasSAP : line 1 - rpasystem : kill_process  id: 77724d68-062e-6b4b-6912-01776a35ba7a - name - EXCEL.EXE
+2026-01-19 18:17:12.169940 - rocketbot - INFO - request: ActualizaTasasSAP : line 2 - rpaweb : openbrowser  id: 747a25a6-0d95-8e67-f604-875d17bf91d0 - chrome - {"url":"https://suameca.banrep.gov.co/estadisticas-economicas-back/reporte-oac.html?path=%2FEstadisticas_Banco_de_la_Republica%2F4_Sector_Externo_tasas_de_cambio_y_derivados%2F1_Tasas_de_cambio%2F2_Tasas_de_cambio_otros_paises%2F1_Tasas_de_cambio_paises_del_mundo_Monedas_de_reserva#","id_driver":"","profile":""}
+2026-01-19 18:17:16.400254 - rocketbot - INFO - request: ActualizaTasasSAP : line 3 - rpasystem : wait  id: 7cb0e64d-374e-51e6-9301-9a73842c1686 -  - 30
+2026-01-19 18:17:46.403049 - rocketbot - INFO - request: ActualizaTasasSAP : line 4 - rpaweb : clickWeb  id: 92736834-da71-ca19-3e15-e9fe88d2023e - xpath - //*[@id="dashboardfilterviz_box_0"]/div/div[1]/div
+2026-01-19 18:17:50.709969 - rocketbot - INFO - request: ActualizaTasasSAP : line 5 - rpasystem : wait  id: 2b5d8890-c3a4-6756-1fb8-2211afd3a667 -  - 3
+2026-01-19 18:17:53.713748 - rocketbot - INFO - request: ActualizaTasasSAP : line 6 - rpaweb : sendkey_web  id: 8de83db6-b8fb-a865-bc88-1a3cd5768f49 -  - {"data":"//body","data_type":"xpath","special":"TAB"}
+2026-01-19 18:17:53.855585 - rocketbot - INFO - request: ActualizaTasasSAP : line 7 - rpasystem : wait  id: d8138e9a-f317-d97e-8d99-1c12ac1a1dc1 -  - 1
+2026-01-19 18:17:54.857863 - rocketbot - INFO - request: ActualizaTasasSAP : line 8 - rpaweb : sendkey_web  id: bcbe3bd2-3e73-6a67-d6e0-1ea80cbe5096 -  - {"data":"//body","data_type":"xpath","special":"TAB"}
+2026-01-19 18:17:54.912328 - rocketbot - INFO - request: ActualizaTasasSAP : line 9 - rpasystem : wait  id: c6902728-c2f4-927f-e482-68ced31df7ae -  - 1
+2026-01-19 18:17:55.915801 - rocketbot - INFO - request: ActualizaTasasSAP : line 10 - rpaweb : sendkey_web  id: 452d96c8-96f7-bc81-c890-b11f8da0dfcc -  - {"data":"//body","data_type":"xpath","special":"TAB"}
+2026-01-19 18:17:55.992092 - rocketbot - INFO - request: ActualizaTasasSAP : line 11 - rpasystem : wait  id: 4ec7e8d5-5325-2272-0ec5-5924e4d63337 -  - 3
+2026-01-19 18:17:58.997685 - rocketbot - INFO - request: ActualizaTasasSAP : line 12 - rpaweb : sendkey_web  id: 4a999f92-3b2e-2bd5-6bcf-8b330d7eb1f9 -  - {"data":"//input[contains(@id,'|input') and contains(@aria-describedby,'_inputHelp')]","data_type":"xpath","text":"01/18/2026"}
+2026-01-19 18:17:59.074740 - rocketbot - INFO - request: ActualizaTasasSAP : line 13 - rpasystem : wait  id: 703b54f5-8015-e7fa-567c-e198e5eace25 -  - 2
+2026-01-19 18:18:01.077391 - rocketbot - INFO - request: ActualizaTasasSAP : line 14 - rpaweb : sendkey_web  id: 9cd1715d-e9a6-3b85-8c29-8dcc82c318e6 -  - {"data":"//body","data_type":"xpath","special":"ENTER"}
+2026-01-19 18:18:01.237326 - rocketbot - INFO - request: ActualizaTasasSAP : line 16 - rpasystem : wait  id: f23627aa-f7dd-004b-76d0-2926d88aff73 -  - 3
+2026-01-19 18:18:04.245052 - rocketbot - INFO - request: ActualizaTasasSAP : line 19 - rpadesktop : mouseMoveTo  id: 1e673954-93a0-f27f-defb-fbe7f872b694 -  - 900,700
+2026-01-19 18:18:04.635941 - rocketbot - INFO - request: ActualizaTasasSAP : line 20 - rpasystem : wait  id: e89c405b-1f95-9250-215e-748ce275d207 -  - 2
+2026-01-19 18:18:06.652191 - rocketbot - INFO - request: ActualizaTasasSAP : line 21 - rpadesktop : MouseClick  id: 35b667eb-6433-c8fa-bd17-dc48ba18f9e7 - right - 
+2026-01-19 18:18:06.768476 - rocketbot - INFO - request: ActualizaTasasSAP : line 22 - rpadesktop : mouseMoveTo  id: 748ad570-d477-daf2-a267-4d41b65c7777 -  - 950,700
+2026-01-19 18:18:07.136073 - rocketbot - INFO - request: ActualizaTasasSAP : line 23 - rpasystem : wait  id: 3e00f2fa-5005-56ab-9649-2ba7a62e52c8 -  - 2
+2026-01-19 18:18:09.138339 - rocketbot - INFO - request: ActualizaTasasSAP : line 24 - rpadesktop : MouseClick  id: aa61003b-6459-ecd3-b891-029b18a52f91 - left - 
+2026-01-19 18:18:09.258111 - rocketbot - INFO - request: ActualizaTasasSAP : line 25 - rpadesktop : mouseMoveTo  id: 4590f487-4934-7d51-bf7e-f24e8b88da9a -  - 1250,600
+2026-01-19 18:18:09.657345 - rocketbot - INFO - request: ActualizaTasasSAP : line 26 - rpasystem : wait  id: bf14f6fb-95e4-bd8c-185a-caa1ea970a60 -  - 2
+2026-01-19 18:18:11.672892 - rocketbot - INFO - request: ActualizaTasasSAP : line 27 - rpadesktop : MouseClick  id: 491aa443-777c-0a1e-09fe-eeed20b1df12 - left - 
+2026-01-19 18:18:11.791236 - rocketbot - INFO - request: ActualizaTasasSAP : line 28 - rpadesktop : mouseMoveTo  id: f2da70e6-cfbe-9b6f-0778-1a50edc83624 -  - 685,520
+2026-01-19 18:18:12.206273 - rocketbot - INFO - request: ActualizaTasasSAP : line 29 - rpasystem : wait  id: c4f2e211-c71b-a077-e487-9ca7b8722e8a -  - 2
+2026-01-19 18:18:14.209660 - rocketbot - INFO - request: ActualizaTasasSAP : line 30 - rpadesktop : MouseClick  id: dfe5170b-4ddf-16e0-18aa-1f8f298f085a - left - 
+2026-01-19 18:18:14.330997 - rocketbot - INFO - request: ActualizaTasasSAP : line 31 - rpasystem : wait  id: 5977d839-ee2b-6b64-85de-ed28638a6794 -  - 30
+2026-01-19 18:18:44.333839 - rocketbot - INFO - request: ActualizaTasasSAP : line 33 - rpascripts : module  id: b2afb3af-467f-31ae-c227-0f0452d05888 -  - {"module_name":"AdvancedExcel","module":"copy_other","excel1":"C:/Users/USER/Downloads/1_Tasas_de_cambio_paises_del_mundo_Monedas_de_reserva.xlsx","sheet_name1":"sheet1","cell_range1":"A1:AX6","excel2":"C:/Users/USER/Downloads/tasas_de_cambio.xlsm","normal":true,"sheet_name2":"Hoja1"}
+2026-01-19 18:18:46.115146 - rocketbot - INFO - request: ActualizaTasasSAP : line 34 - rpasystem : wait  id: d69dcc81-c305-d89f-bd89-00fe92a8b72c -  - 8
+2026-01-19 18:18:54.118678 - rocketbot - INFO - request: ActualizaTasasSAP : line 36 - rpascripts : module  id: 78a5d462-c88e-6837-16ea-4c86094bf87a -  - {"module_name":"AdvancedExcel","module":"Open","path":"C:/Users/USER/Downloads/tasas_de_cambio.xlsm","var_":"ArcBanRep"}
+2026-01-19 18:18:55.030297 - rocketbot - INFO - request: ActualizaTasasSAP : line 37 - rpasystem : wait  id: eafbd78b-2851-0b70-6467-1bbf7774e508 -  - 5
+2026-01-19 18:19:00.035845 - rocketbot - INFO - request: ActualizaTasasSAP : line 39 - rpaexcel : runmacro  id: 785d2ab1-f12e-78db-6aa1-dd3ee8b7272d -  - FiltrarColumnasPorMoneda
+2026-01-19 18:19:00.076051 - rocketbot - INFO - request: ActualizaTasasSAP : line 40 - rpasystem : wait  id: 4ce678ea-5c88-5f49-271a-ecd5d12bdb50 -  - 8
+2026-01-19 18:19:08.091568 - rocketbot - INFO - request: ActualizaTasasSAP : line 41 - rpascripts : module  id: 0efaccae-12c6-4f52-d511-cd1c70812a8d -  - {"module_name":"AdvancedExcel","module":"save_mac","path_file":"C:/Users/USER/Downloads/tasas_de_cambio.xlsm"}
+2026-01-19 18:19:08.249760 - rocketbot - INFO - request: ActualizaTasasSAP : line 42 - rpascripts : module  id: 234be9fc-5546-25c4-2698-50e18125914c -  - {"module_name":"AdvancedExcel","module":"CloseExcel","kill_app":true}
+2026-01-19 18:19:08.435180 - rocketbot - INFO - request: ActualizaTasasSAP : line 43 - rpafile : deletefile  id: 17840900-1198-444a-98f6-d52ffce6c463 -  - {"from":"C:/Users/USER/Downloads/1_Tasas_de_cambio_paises_del_mundo_Monedas_de_reserva.xlsx","to":""}
+2026-01-19 18:19:08.435438 - rocketbot - INFO - request: ActualizaTasasSAP : line 44 - rpaweb : killdriver  id: 3ebb3add-8ddd-2f1c-687d-21be1a465337 -  - 
+2026-01-19 18:19:10.711697 - rocketbot - INFO - request: ActualizaTasasSAP : line 45 - rpafile : copyfile  id: 7492d289-4d0f-1eb2-331e-cc1e12b132ab -  - {"from":"C:/Users/USER/Downloads/tasas_de_cambio.xlsm","to":"C:\\Desarrollos\\API_TasasCambio_USA\\backend\\data/tasas_de_cambio.xlsm"}
+2026-01-19 18:19:10.714734 - rocketbot - INFO - request: ActualizaTasasSAP : line 46 - rpasystem : wait  id: 6663c452-a64d-75b8-99ac-536cf6d5c4e1 -  - 3
+2026-01-19 18:19:13.716034 - rocketbot - INFO - request: ActualizaTasasSAP : line 47 - rpasystem : startfile  id: 8e430d5c-6f06-a031-c89a-382a3ae00123 -  - {"path":"C:/Desarrollos/API_TasasCambio_USA/backend/ejecutar_carga.bat"}
+2026-01-19 18:19:18.370291 - rocketbot - INFO - request: ActualizaTasasSAP : line 48 - rpasystem : wait  id: ef35138b-0e27-5264-69ff-c2ba6081261d -  - 10
+2026-01-19 18:19:28.375510 - rocketbot - INFO - request: ActualizaTasasSAP : line 49 - rpasystem : kill_process  id: 9eada2cc-5ced-f513-315a-217edb048692 - name - EXCEL.EXE
+2026-01-19 18:19:28.575102 - rocketbot - INFO - request: ActualizaTasasSAP : line 50 - rpadesktop : alert  id: 4f4fc727-2e29-5ca4-0eb0-81d3cfddbc40 -  - Fin del proceso
+2026-01-19 22:23:02.951839 - rocketbot - INFO - request: ActualizaTasasSAP : line 49 - rpasystem : kill_process  id: 9eada2cc-5ced-f513-315a-217edb048692 - name - EXCEL.EXE
+2026-01-19 22:58:33.981101 - rocketbot - INFO - request: ActualizaTasasSAP : line 2 - rpaweb : openbrowser  id: 747a25a6-0d95-8e67-f604-875d17bf91d0 - chrome - {"url":"https://suameca.banrep.gov.co/estadisticas-economicas-back/reporte-oac.html?path=%2FEstadisticas_Banco_de_la_Republica%2F4_Sector_Externo_tasas_de_cambio_y_derivados%2F1_Tasas_de_cambio%2F2_Tasas_de_cambio_otros_paises%2F1_Tasas_de_cambio_paises_del_mundo_Monedas_de_reserva#","id_driver":"","profile":""}

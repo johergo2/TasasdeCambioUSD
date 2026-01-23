@@ -5,7 +5,7 @@ from psycopg2 import errors
 
 # 1. Leer el Excel
 archivo_excel = r"C:\Desarrollos\API_TasasCambio_USA\backend\data\tasas_de_cambio.xlsm"
-df = pd.read_excel(archivo_excel, sheet_name="Sheet3", header=2)
+df = pd.read_excel(archivo_excel, sheet_name="Hoja3", header=2)
 
 # 2. Conexión a PostgreSQL (Render)
 conn = psycopg2.connect(
