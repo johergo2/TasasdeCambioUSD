@@ -3,6 +3,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import text
 from ..database import get_db
 from datetime import date
+from app.dependencies.api_key import validar_api_key
+
 
 router = APIRouter(prefix="/tasas", tags=["Tasas de Cambio"])
 
@@ -14,12 +16,14 @@ async def obtener_tasas(
     fecha: str | None = Query(None),
     from_moneda: str | None = Query(None),
     to_moneda: str | None = Query(None),
+    api_key_data = Depends(validar_api_key),
     db: AsyncSession = Depends(get_db)
 ):
     sql = """
         SELECT fecha, tipo_tasa, from_moneda, to_moneda, factor
         FROM tasas_de_cambio
         WHERE 1=1
+        AND id = 443
     """
 
     params = {}
