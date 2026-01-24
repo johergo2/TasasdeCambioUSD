@@ -68,7 +68,8 @@ async def validar_api_key(
             endpoint=endpoint,
             ip=client_ip,
             status_code=403
-        )        
+        )      
+        await db.commit()  
         raise HTTPException(
             status_code=403,
             detail="API Key inactiva o suspendida"
@@ -95,6 +96,7 @@ async def validar_api_key(
             ip=client_ip,
             status_code=403
         )        
+        await db.commit()
         raise HTTPException(
             status_code=403,
             detail="API Key fuera del periodo de vigencia"
@@ -107,33 +109,22 @@ async def validar_api_key(
             SET requests_usadas = requests_usadas + 1
             WHERE api_key = :api_key
             AND requests_usadas < requests_max
-        """
-        try:
-            result_update = await db.execute(text(update_sql), {"api_key": x_api_key})
+        """        
+        result_update = await db.execute(text(update_sql), {"api_key": x_api_key})
 
-            if result_update.rowcount == 0:
-                await registrar_log(
-                    db=db,
-                    api_key=x_api_key,
-                    endpoint=endpoint,
-                    ip=client_ip,
-                    status_code=429
-                )    
-                
-                raise HTTPException(
-                    status_code=429,
-                    detail="Límite de consumo alcanzado"
-                )      
-
-            await db.commit()                  
-        except HTTPException:
-            raise
-        except Exception:
-            await db.rollback()
+        if result_update.rowcount == 0:
+            await registrar_log(
+                db=db,
+                api_key=x_api_key,
+                endpoint=endpoint,
+                ip=client_ip,
+                status_code=429
+            )    
+            await db.commit()
             raise HTTPException(
-                status_code=500,
-                detail="Error actualizando consumo de la API Key en la tabla"
-            )
+                status_code=429,
+                detail="Límite de consumo alcanzado"
+            )      
 
     await registrar_log(
         db=db,
@@ -143,9 +134,14 @@ async def validar_api_key(
         status_code=200
     )
 
+    await db.commit()
+
 
     return key
 
+#===============================================
+# Registro de Logs
+#===============================================
 async def registrar_log(
     db: AsyncSession,
     api_key: str,
@@ -153,24 +149,19 @@ async def registrar_log(
     ip: str,
     status_code: int
 ):
-    try:
-        sql = text("""
-            INSERT INTO tasas_api_logs
-                (api_key, endpoint, ip, status_code)
-            VALUES
-                (:api_key, :endpoint, :ip, :status_code)
-        """)
 
-        await db.execute(sql, {
-            "api_key": api_key,
-            "endpoint": endpoint,
-            "ip": ip,
-            "status_code": status_code
-        })
+    sql = text("""
+        INSERT INTO tasas_api_logs
+            (api_key, endpoint, ip, status_code)
+        VALUES
+            (:api_key, :endpoint, :ip, :status_code)
+    """)
 
-        #await db.commit()
+    await db.execute(sql, {
+        "api_key": api_key,
+        "endpoint": endpoint,
+        "ip": ip,
+        "status_code": status_code
+    })
 
-    except Exception:
-        await db.rollback()
-        # ⚠️ Nunca rompemos la API por un error de logging
-        pass
+    #await db.commit()
