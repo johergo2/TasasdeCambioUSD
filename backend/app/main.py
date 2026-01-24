@@ -19,7 +19,7 @@ app.add_middleware(
 
 app.include_router(tasas.router, prefix="/api")
 app.include_router(tasas_cambio.router, prefix="/api")
-app.include_router(usage.router), prefix="/api"
+app.include_router(usage.router, prefix="/api")
 
 @app.get("/")
 def health():
