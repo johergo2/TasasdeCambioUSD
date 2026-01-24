@@ -33,6 +33,7 @@ async def validar_api_key(
     sql = text("""
         SELECT
             api_key,
+            plan,
             estado,
             requests_max,
             requests_usadas,
@@ -99,16 +100,16 @@ async def validar_api_key(
             detail="API Key fuera del periodo de vigencia"
         )
 
-    # Incrementar consumo
-    update_sql = """
-        UPDATE tasas_api_keys
-        SET requests_usadas = requests_usadas + 1
-        WHERE api_key = :api_key
-        AND requests_usadas < requests_max
-    """
+    # 🚫 NO consumir para /usage
+    if endpoint != "/api/usage":
+        update_sql = """
+            UPDATE tasas_api_keys
+            SET requests_usadas = requests_usadas + 1
+            WHERE api_key = :api_key
+            AND requests_usadas < requests_max
+        """
     try:
         result_update = await db.execute(text(update_sql), {"api_key": x_api_key})
-        await db.commit()    
 
         if result_update.rowcount == 0:
             await registrar_log(
@@ -180,7 +181,7 @@ async def registrar_log(
             "status_code": status_code
         })
 
-        await db.commit()
+        #await db.commit()
 
     except Exception:
         await db.rollback()
