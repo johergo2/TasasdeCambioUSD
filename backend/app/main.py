@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from backend.app.routers import tasas
 from backend.app.routers import tasas_cambio
+from backend.app.routers import usage
 
 app = FastAPI(
     title="API Tasas de Cambio USA",
@@ -18,6 +19,7 @@ app.add_middleware(
 
 app.include_router(tasas.router, prefix="/api")
 app.include_router(tasas_cambio.router, prefix="/api")
+app.include_router(usage.router), prefix="/api"
 
 @app.get("/")
 def health():
