@@ -101,7 +101,7 @@ async def validar_api_key(
         )
 
     # 🚫 NO consumir para /usage
-    if endpoint != "/api/usage":
+    if not endpoint.startswith("/api/usage"):
         update_sql = """
             UPDATE tasas_api_keys
             SET requests_usadas = requests_usadas + 1
