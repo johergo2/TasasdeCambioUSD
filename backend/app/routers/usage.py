@@ -11,8 +11,7 @@ router = APIRouter(prefix="/usage", tags=["Usage"])
 
 @router.get("/")
 async def obtener_usage(
-    api_key_data = Depends(validar_api_key),
-    db: AsyncSession = Depends(get_db)
+    api_key_data = Depends(validar_api_key)
 ):
     hoy = date.today()
 
@@ -25,10 +24,8 @@ async def obtener_usage(
     if hasattr(fin, "date"):
         fin = fin.date()
 
-    dias_restantes = (fin - hoy).days
-    if dias_restantes < 0:
-        dias_restantes = 0
-
+    dias_restantes = max((fin - hoy).days, 0)
+ 
     return {
         "plan": api_key_data["plan"],
         "estado": api_key_data["estado"],
@@ -36,6 +33,6 @@ async def obtener_usage(
         "periodo_fin": fin,
         "requests_max": api_key_data["requests_max"],
         "requests_usadas": api_key_data["requests_usadas"],
-        "requests_restantes": api_key_data["requests_max"] - api_key_data["requests_usadas"],
+        "requests_restantes": max(api_key_data["requests_max"] - api_key_data["requests_usadas"], 0),
         "dias_restantes": dias_restantes
     }
