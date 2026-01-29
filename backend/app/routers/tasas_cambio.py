@@ -56,7 +56,7 @@ async def obtener_prueba(
         SELECT fecha, tipo_tasa, from_moneda, to_moneda, factor
         FROM tasas_de_cambio
         WHERE 1=1
-        AND id in (451,452,458,461,462,483,515)
+        AND id >= 1766
     """
 
     params = {}
