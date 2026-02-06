@@ -1,3 +1,6 @@
 .env
 *.txt
 *secret*
+
+Facturas.py
+ejecutar
