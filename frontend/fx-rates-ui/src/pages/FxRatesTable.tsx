@@ -103,7 +103,7 @@ const FxRatesTable = () => {
         </thead>
         <tbody>
           {renderRow("Yen Japonés", "JPY")}
-          {renderRow("Peso Mexicano", "MXN")}
+          {renderRow("Peso Colombiano", "COP")}
           {renderRow("Dólar Canadiense", "CAD")}
           {renderRow("Euro", "EUR")}
           {renderRow("Libra Esterlina", "GBP")}
