@@ -1,34 +1,67 @@
 import { useEffect, useState } from "react";
 
-interface Rates {
-  [currency: string]: number;
+interface ApiRate {
+  fecha: string;
+  tipo_tasa: string;
+  from_moneda: string;
+  to_moneda: string;
+  factor: number;
 }
 
-interface FxApiResponse {
-  base: string;
-  date: string;
-  rates: Rates;
+interface RatePair {
+  usdTo: number | null; // 1 USD = Moneda
+  toUsd: number | null; // 1 Moneda = USD
 }
+
+interface RatesMap {
+  [currency: string]: RatePair;
+}
+
+
 
 const FxRatesTable = () => {
-  const [rates, setRates] = useState<Rates>({});
+  const [rates, setRates] = useState<RatesMap>({});
   const [date, setDate] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("https://api.frankfurter.app/latest?base=USD")
+    /*fetch("https://api.frankfurter.app/latest?base=USD")*/
+    fetch("https://tasasdecambiousd-backend.onrender.com/api/tasas/prueba?fecha=2026-02-05")
       .then((res) => {
         if (!res.ok) {
           throw new Error("Error al consumir la API de tasas");
         }
         return res.json();
       })
-      .then((data: FxApiResponse) => {
-        setRates(data.rates);
-        setDate(data.date);
+      .then((data: ApiRate[]) => {
+        const map: RatesMap = {};
+
+        data.forEach((item) => {
+          const currency =
+            item.from_moneda === "USD"
+              ? item.to_moneda
+              : item.from_moneda;
+
+          if (!map[currency]) {
+            map[currency] = { usdTo: null, toUsd: null };
+          }
+          
+          if (item.from_moneda === "USD") {
+            map[currency].usdTo = item.factor;
+          }
+
+          if (item.to_moneda === "USD") {
+            map[currency].toUsd = item.factor;
+          }        
+
+        });
+
+        setRates(map);
+        setDate(data[0]?.fecha ?? "");
         setLoading(false);
-      })
+      })        
+
       .catch((err: Error) => {
         setError(err.message);
         setLoading(false);
@@ -38,11 +71,20 @@ const FxRatesTable = () => {
   if (loading) return <p>Cargando tasas de cambio...</p>;
   if (error) return <p style={{ color: "red" }}>{error}</p>;
 
+  const renderRow = (name: string, code: string) => (
+    <tr>
+      <td>{name}</td>
+      <td>{code}</td>
+      <td>{rates[code]?.usdTo?.toFixed(6) ?? "-"}</td>
+      <td>{rates[code]?.toUsd?.toFixed(6) ?? "-"}</td>
+    </tr>
+  );
+
   return (
     <div style={{ padding: "20px" }}>
       <h2>Tasa media – Conversión a USD</h2>
       <p>
-        <strong>Fuente:</strong> Frankfurter (ECB) <br />
+        <strong>Fuente:</strong> Banco de la República <br />
         <strong>Fecha:</strong> {date}
       </p>
 
@@ -60,48 +102,16 @@ const FxRatesTable = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Yen Japonés</td>
-            <td>JPY</td>
-            <td>{rates.JPY?.toFixed(6)}</td>
-            <td>{rates.JPY ? (1 / rates.JPY).toFixed(6) : "-"}</td>
-          </tr>
-          <tr>
-            <td>Peso Mexicano</td>
-            <td>MXN</td>
-            <td>{rates.MXN?.toFixed(6)}</td>
-            <td>{rates.MXN ? (1 / rates.MXN).toFixed(6) : "-"}</td>
-          </tr>
-          <tr>
-            <td>Dólar Canada</td>
-            <td>CAD</td>
-            <td>{rates.CAD?.toFixed(6)}</td>
-            <td>{rates.CAD ? (1 / rates.CAD).toFixed(6) : "-"}</td>
-          </tr>          
-          <tr>
-            <td>Euro</td>
-            <td>EUR</td>
-            <td>{rates.EUR?.toFixed(6)}</td>
-            <td>{rates.EUR ? (1 / rates.EUR).toFixed(6) : "-"}</td>
-          </tr>            
-          <tr>
-            <td>Libra Esterlina</td>
-            <td>GBP</td>
-            <td>{rates.GBP?.toFixed(6)}</td>
-            <td>{rates.GBP ? (1 / rates.GBP).toFixed(6) : "-"}</td>
-          </tr>        
-          <tr>
-            <td>Dólar Singapur</td>
-            <td>SGD</td>
-            <td>{rates.SGD?.toFixed(6)}</td>
-            <td>{rates.SGD ? (1 / rates.SGD).toFixed(6) : "-"}</td>
-          </tr>      
-          <tr>
-            <td>Franco Suizo</td>
-            <td>CHF</td>
-            <td>{rates.CHF?.toFixed(6)}</td>
-            <td>{rates.CHF ? (1 / rates.CHF).toFixed(6) : "-"}</td>
-          </tr>                        
+          {renderRow("Yen Japonés", "JPY")}
+          {renderRow("Peso Mexicano", "MXN")}
+          {renderRow("Dólar Canadiense", "CAD")}
+          {renderRow("Euro", "EUR")}
+          {renderRow("Libra Esterlina", "GBP")}
+          {renderRow("Dólar Singapur", "SGD")}
+          {renderRow("Franco Suizo", "CHF")}
+   
+             
+                            
         </tbody>
       </table>
     </div>
